@@ -1,11 +1,12 @@
 const Discord = require('discord.js');
+const fs = require('fs');
 const client = new Discord.Client();
-const prefixes = ['.','!','?',',',':',';','`','/'];
-const descriptions = ['Most any command prefix will work.'
-		      , 'help - hopefully you figured this one out.'
-		      , 'ping - for if you want to check that the bot works.'
-		      , 'owo - an especially egregious owoizer.'
-		      , 'github - Gigabitten/froggo if you don\'t care about the details.'
+const prefixes = ['.'];
+const descriptions = ['.help - hopefully you figured this one out.'
+		      , '.ping - for if you want to check that the bot works.'
+		      , '.owo - an especially egregious owoizer.'
+		      , '.stiles - a gift, from me to you.'
+		      , '.github - Gigabitten/froggo if you don\'t care about the details.'
 		     ];
 
 client.on('ready', () => {
@@ -24,9 +25,16 @@ client.on('message', msg => {
 	else if(processed[0] === 'help') help(chan);
 	else if(processed[0] === 'github') git(chan);
 	else if(processed[0] === 'owo') owo(processed, chan);
+	else if(processed[0] === 'stiles') stiles(chan);
 	else chan.send("Sorry, I don't recognize that command!");
     }
 });
+
+function stiles(chan) {
+    const embed = new Discord.RichEmbed()
+	  .setImage('https://i.imgur.com/Eh6cKRK.gif');
+    chan.send({embed});
+}
 
 function owo(words, chan) {
     if(words.length > 1) {
@@ -64,6 +72,14 @@ function help(chan) {
 function parse(trigger) {
     trigger = trigger.toLowerCase();
     return trigger;
+}
+
+function syncRead(file) {
+    return fs.readFileSync(file, 'utf8');
+}
+
+function syncWrite(file, data) {
+    fs.writeFileSync(file, data);
 }
 
 client.login('YOUR_TOKEN_GOES_HERE')
