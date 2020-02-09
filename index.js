@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const prefixes = ['.','!','?',',',':',';','`'];
+const prefixes = ['.','!','?',',',':',';','`','/'];
 const descriptions = ['Most any command prefix will work.'
 		      , 'help - hopefully you figured this one out.'
 		      , 'ping - for if you want to check that the bot works.'
@@ -17,7 +17,7 @@ client.on('message', msg => {
     trigger = msg.content;
     trigger = parse(trigger);
     author = msg.author;
-    const chan = msg.guild.channels.find(ch => ch.name === 'general');
+    const chan = msg.channel;
     if(prefixes.includes(trigger.charAt(0)) && !author.bot) {
 	processed = trigger.substr(1).split(' ');
 	if(processed[0] === 'ping') ping(author, chan);
@@ -29,9 +29,9 @@ client.on('message', msg => {
 });
 
 function owo(words, chan) {
-    if(words.length > 0) {
+    if(words.length > 1) {
 	delete words[0];
-	chan.send(owohelp(words.join(" ")));
+	chan.send(owohelp(words.join(" ")) + " >.<");
     }
     else chan.send("You need to put something after the command, silly!");
 }
@@ -50,7 +50,7 @@ function owochar(c) {
 }
 
 function git(chan) {
-    chan.send('This project is open source and licensed under the GPL! You can find the repo here: https://github.com/Gigabitten/froggo');
+    chan.send('This project is open source, licensed under the GPL! You can find the repo here: https://github.com/Gigabitten/froggo');
 }
 
 function ping(user, chan) {
